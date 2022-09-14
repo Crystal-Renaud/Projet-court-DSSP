@@ -12,5 +12,5 @@ Installer [miniconda](https://docs.conda.io/en/latest/miniconda.html).
 Utiliser Python. 
 
 ## Lancement du programme
-Lancer le programme : python3 code.py 
+Lancer le programme : python3 code.py   
 Pour changer le input (la protéine), il faut changer le nom du fichier .hb2 dans le code (après le with open). 
