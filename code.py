@@ -91,9 +91,31 @@ bridge_antip = []
 
 for i in range(len(i_consecutif)):
     if i_consecutif[i][0][1] == (i_consecutif[i][2][1]-2):
-        bridge_p.append([i_consecutif[i]])
+        bridge_p.append(i_consecutif[i])
 
 for i in range(len(i_consecutif)):
     if i_consecutif[i][0][1] == (i_consecutif[i][2][1]+2):
-        bridge_antip.append([i_consecutif[i]])
+        bridge_antip.append(i_consecutif[i])
 
+#une fois qu'on a nos bridges, on sait que un ladder correspond à deux bridges consécutifs
+ladder_p = []
+ladder_p2 = []
+ladder_ap = []
+ladder_ap2 =[]
+for i in range(len(bridge_p)-1) :
+    if (bridge_p[i][0][0]+1) == bridge_p[i+1][0][0]:
+        ladder_p.append(bridge_p[i])
+        ladder_p.append(bridge_p[i+1])
+
+for ladder in range(len(ladder_p)):  #pour enlever les ladders qui serait en double
+    if ladder_p[ladder] not in ladder_p2:
+        ladder_p2.append(ladder_p[ladder])
+
+for i in range(len(bridge_antip) - 1):
+    if (bridge_antip[i][0][0]+1) == bridge_antip[i+1][0][0] :
+        ladder_ap.append(bridge_antip[i])
+        ladder_ap.append(bridge_antip[i+1])
+
+for ladder in range(len(ladder_ap)):
+    if ladder_ap[ladder] not in ladder_ap2:
+        ladder_ap2.append(ladder_ap[ladder])
