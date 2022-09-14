@@ -4,22 +4,16 @@ import math
 # hbplus a extrait les h-bond
 
 num_res_donneur =[] #numero du résidu donneur
-name_res_donneur = [] #son nom
 num_res_accept =[] #numéros résidu accepteur
-name_res_accept = [] #son nom
 
 #extraire résidue
 with open("new_2hbb.hb2", "r") as filing:
     for line in filing:
         if line.startswith("A00"):
             res_don_numb = int(line [1:5])
-            res_don_name = line[7:9].strip() #strip sert à enlever les espaces
             res_acc_numb = int(line[15:19])
-            res_acc_name = line[21:23].strip()
             num_res_donneur.append(res_don_numb)
-            name_res_donneur.append(res_don_name)
             num_res_accept.append(res_acc_numb)
-            name_res_accept.append(res_acc_name)
 
 #création liste qui associe les listes d'extraction
 h_bond = []
@@ -119,3 +113,71 @@ for i in range(len(bridge_antip) - 1):
 for ladder in range(len(ladder_ap)):
     if ladder_ap[ladder] not in ladder_ap2:
         ladder_ap2.append(ladder_ap[ladder])
+
+#un feuillet existe si deux ladders ont des résidus en commun
+
+#pour afficher mes résultats comme DSSP, je dois avoir le nombre total de mes résidus
+x1 = min(num_res_donneur)
+x2 = min(num_res_accept)
+x = min(x1, x2)
+
+y1 = max(num_res_donneur)
+y2 = max(num_res_accept)
+y = max(y1, y2)
+
+#j'extrais de la liste helix les résidus 
+residu_helix = []
+
+for i in helix:
+    if i[0] not in residu_helix:
+        residu_helix.append(i[0])
+        if i[1] not in residu_helix:
+            residu_helix.append(i[1])
+
+residu_helix.sort()
+
+#j'extrais de la liste ladder les résidus
+residu_ladder = []
+for i in ladder_p:
+    if i[0][0] not in residu_ladder:
+        residu_ladder.append(i[0][0])
+        if i[1][0] not in residu_ladder:
+            residu_ladder.append(i[1][0])
+            if i[2][0] not in residu_ladder:
+                residu_ladder.append(i[2][0])
+                if i[0][1] not in residu_ladder:
+                    residu_ladder.append(i[0][1])
+                    if i[1][1] not in residu_ladder:
+                       residu_ladder.append(i[1][1])
+                       if i[2][1] not in residu_ladder:
+                            residu_ladder.append(i[2][1])
+
+for i in ladder_ap:
+    if i[0][0] not in residu_ladder:
+        residu_ladder.append(i[0][0])
+        if i[1][0] not in residu_ladder:
+            residu_ladder.append(i[1][0])
+            if i[2][0] not in residu_ladder:
+                residu_ladder.append(i[2][0])
+                if i[0][1] not in residu_ladder:
+                    residu_ladder.append(i[0][1])
+                    if i[1][1] not in residu_ladder:
+                       residu_ladder.append(i[1][1])
+                       if i[2][1] not in residu_ladder:
+                            residu_ladder.append(i[2][1])
+residu_ladder.sort()
+
+#affichage des numéros de résidu et de leur structure sous forme d'un "tableau" comme sur DSSP
+print("numéro résidu  structure")
+for i in range(x, y+1):
+    if i in residu_helix:
+        print(f"     {i}          hélice")
+    elif i in residu_ladder:
+        print(f"     {i}          ladder")
+    else:
+        print(f"     {i}           -")
+print(i)
+print( )
+print("Un feuillet existe si les ladders ont un résidu en commun")
+print(f"Liste des ladders parallèles: {ladder_p2}")
+print(f"Liste des ladders anti-parallèles: {ladder_ap2}")
